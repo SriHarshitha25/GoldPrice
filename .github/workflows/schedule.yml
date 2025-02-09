@@ -2,12 +2,13 @@ name: Daily Gold Price Checker
 
 on:
   schedule:
-    - cron: "30 3 * * *"  # Runs daily at 9:00 AM IST (3:30 AM UTC)
-  workflow_dispatch:  # Allows manual trigger
+    - cron: "30 2 * * *"  # Runs daily at 8:00 AM IST (2:30 AM UTC)
+  workflow_dispatch:  # Allows manual execution from GitHub Actions tab
 
 jobs:
-  run-script:
+  check_gold_price:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -15,13 +16,10 @@ jobs:
       - name: Set Up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: "3.x"
 
       - name: Install Dependencies
-        run: pip install requests
+        run: pip install requests beautifulsoup4
 
       - name: Run Gold Price Checker
-        run: python main.py
-
-      - name: Save Log File
-        run: cat gold_price_log.txt
+        run: python gold_price_scraper.py
